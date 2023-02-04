@@ -1,4 +1,4 @@
-# Add Changes to Jenkins Changelog Plugin
+# Add Changes to Build Changelog Plugin
 
 ## About
 
