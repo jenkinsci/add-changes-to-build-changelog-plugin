@@ -1,0 +1,2 @@
+_extends: .github
+tag-template: add-changes-to-build-changelog-$NEXT_MINOR_VERSION

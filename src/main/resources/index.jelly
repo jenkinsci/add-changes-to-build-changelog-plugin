@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+  This plugin will add custom changes to the jenkins changelog via string or file.
+</div>
