@@ -94,6 +94,8 @@ public class AddChangesToBuildChangelog {
 		// this small plugin is going to do.
 		if(scm instanceof hudson.scm.NullSCM) {
 			throw new IllegalArgumentException("Scm cannot be None");
+		} else if(!(scm instanceof GitSCM)) {
+			throw new IllegalArgumentException("Only Git SCM is supported.");
 		}
 		
 		// It seems like just appending or creating a new changelog.xml is all that's needed for FreestyleBuilds.

@@ -55,26 +55,11 @@ committer Jane Doe <jane@doe.com> 2023-02-03 07:30:05 +0000
 ## Freestyle Builds
 
 > **Warning**
-> The format of the changelog text you're inserting must match whatever SCM type you have defined in your job's configuration. For example, if you define SVN as your default checkout, then all custom changes must be in that same format.  SCM type of None are not supported and will throw an exception.  If you don't have any SCM changes and still want to use this plugin, then specify an empty respository to get past that restriction.  
+> At the moment, you can only specify Git SCM as the default checkout type.  The other SCM types (like SVN, etc) are not support yet.  If you want to use this plugin and do not have a git repository, then specify an empty git repository to get around that restriction.
 
 Screenshot:
 
 ![](images/screenshot.png)
-
-Example Subversion changelog text:
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<log>
-      <logentry revision="123456">
-            <author>jdoe</author>
-            <date>2023-01-19T04:45:33.384807Z</date>
-            <paths>
-                  <path action="M" localPath="home/hello.txt" kind="file">/home/hello.txt</path>
-            </paths>
-            <msg>My svn change.</msg>
-      </logentry>
-</log>
-```
 
 Example git changelog text:
 ```
