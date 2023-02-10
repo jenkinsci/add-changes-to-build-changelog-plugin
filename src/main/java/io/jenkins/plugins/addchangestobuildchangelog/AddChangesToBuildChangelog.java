@@ -33,7 +33,7 @@ public class AddChangesToBuildChangelog {
 		if(run instanceof WorkflowRun) {
 			perfromAgainstWorkflowRun(text, (WorkflowRun)run, workspace, listener);
 		} else if(run instanceof FreeStyleBuild) {
-			perfromAgainstFreestyleBuild(text, (FreeStyleBuild)run, workspace, listener);
+			perfromAgainstFreeStyleBuild(text, (FreeStyleBuild)run, workspace, listener);
 		} else {
 			throw new IllegalArgumentException("Only Pipeline and Freestyle jobs are supported at this time.");
 		}
@@ -82,7 +82,7 @@ public class AddChangesToBuildChangelog {
 	/**
 	 * Performs the necessary logic against Freestyle Builds.
 	 */
-	private void perfromAgainstFreestyleBuild(
+	private void perfromAgainstFreeStyleBuild(
 		String text,
 		FreeStyleBuild run, 
 		FilePath workspace, 

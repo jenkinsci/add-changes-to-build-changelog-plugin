@@ -45,6 +45,7 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+		<!-- Needed for plugins in general -->
        <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>structs</artifactId>
@@ -59,47 +60,24 @@
             <artifactId>workflow-basic-steps</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jenkins-ci.plugins.workflow</groupId>
-            <artifactId>workflow-durable-task-step</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<!-- Needed because we use WorkflowRun in our code -->
         <dependency>
             <groupId>org.jenkins-ci.plugins.workflow</groupId>
             <artifactId>workflow-job</artifactId>
-			<version>2.15</version>
         </dependency>
+		<!-- Needed because we use GitSCM in our code -->
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>git</artifactId>
-			<version>3.6.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-			<version>2.13.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-			<version>2.13.4.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-jaxb-annotations</artifactId>
-			<version>2.13.4</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
-			<version>1.2.2</version>
-        </dependency>
+		<!-- Needed because we use mockito in our unit tests -->
 		 <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
+		<!-- Needed because we use commons-io to read/write files -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>

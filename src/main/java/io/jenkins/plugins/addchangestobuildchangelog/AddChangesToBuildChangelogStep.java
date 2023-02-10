@@ -82,8 +82,6 @@ public class AddChangesToBuildChangelogStep extends Builder implements SimpleBui
 			addChanges.perform(text, run, workspace, listener);
 			
 			listener.getLogger().println("Done");
-		} catch(IllegalArgumentException e) {
-			throw new RuntimeException(e);
 		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}
