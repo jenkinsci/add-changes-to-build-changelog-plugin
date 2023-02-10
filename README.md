@@ -2,7 +2,7 @@
 
 ## About
 
-A plugin to add a custom changelog to a jenkins build via file or string.
+This plugin was aimed at adding changes to a Jenkins build that didn't come from SCM information. Maybe the changes were calculated outside of Jenkins, but someone wanted to show those changes in the Jenkins UI. 
 
 ## Target Audience
 
