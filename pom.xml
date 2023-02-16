@@ -91,9 +91,8 @@
 		</dependency>
 		<!-- Needed to generate random string -->
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.1</version>
+		    <groupId>io.jenkins.plugins</groupId>
+		    <artifactId>commons-lang3-api</artifactId>
 		</dependency>
     </dependencies>
 
