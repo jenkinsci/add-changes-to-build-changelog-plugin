@@ -9,7 +9,7 @@
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>add-changes-to-build-changelog</artifactId>
-    <version>${revision}${changelist}</version>
+    <version>${changelist}</version>
     <packaging>hpi</packaging>
     <name>Add Changes to Build Changelog</name>
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
@@ -25,8 +25,7 @@
         <tag>${scmTag}</tag>
         <url>https://github.com/${gitHubRepo}</url>
     </scm>    <properties>
-        <revision>1.0</revision>
-        <changelist>-SNAPSHOT</changelist>
+        <changelist>999999-SNAPSHOT</changelist>
 
         <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
         <jenkins.version>2.361.4</jenkins.version>
