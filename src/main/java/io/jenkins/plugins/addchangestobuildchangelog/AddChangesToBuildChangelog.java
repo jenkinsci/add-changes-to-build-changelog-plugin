@@ -17,6 +17,7 @@ import java.util.UUID;
 import java.lang.IllegalArgumentException;
 import org.apache.commons.io.FileUtils;
 import hudson.scm.SCM;
+import com.google.gson.Gson; 
 
 /**
  * Implementation for adding Custom Changes to the Build Changelog via String or File.
@@ -26,10 +27,11 @@ public class AddChangesToBuildChangelog {
 	 * Entry point.
 	 */
 	public void perform(
-		String text,
+		String json,
 		Run<?, ?> run, 
 		FilePath workspace, 
 		TaskListener listener) throws Exception, IOException, IllegalArgumentException {
+		String text = getChangeLogText(json);
 		if(run instanceof WorkflowRun) {
 			perfromAgainstWorkflowRun(text, (WorkflowRun)run, workspace, listener);
 		} else if(run instanceof FreeStyleBuild) {
@@ -101,5 +103,14 @@ public class AddChangesToBuildChangelog {
 		// It seems like just appending or creating a new changelog.xml is all that's needed for FreestyleBuilds.
 		// The configuration must get reloaded after the build step completes or something.
 		appendChangeLog(text, run);
+	}
+	
+	/**
+	 * Convert changes json into a git changelog string
+	 */
+	private String getChangeLogText(String json) {
+		Gson gson = new Gson();
+		CustomChangeSet changes = gson.fromJson(json, CustomChangeSet.class);
+		return changes.toString();
 	}
 }

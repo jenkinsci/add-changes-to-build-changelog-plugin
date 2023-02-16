@@ -29,19 +29,28 @@ For example, here are some of those questions:
 
 ## Pipeline Builds
 
-> **Warning**
-> The format of the changelog text you're inserting must match the jenkins git SCM type.  Internally anything you add to the build will be treated as a Git change.
+> **Note**
+> Internally, anything you add to the build will be treated as a Git change.
 
 Example pipeline script:
 ```
 node {
-    def text = """commit 364cd043160d870b655f66c5925b18b9e14961e1
-author Jane Doe <jane@doe.com> 2023-02-03 07:30:05 +0000
-committer Jane Doe <jane@doe.com> 2023-02-03 07:30:05 +0000
-
-    My git change.
-
-:100644 100644 8bdc86e3cf958f80a15e39dae910c28292bf3030 88944b4f9832a5ccd85d48a9ea4b824b0e7233fd M    hello.txt"""
+    def text = '''
+	{
+		"changes": [
+			{
+				"commit": "364cd043160d870b655f66c5925b18b9e14961e1",
+				"author": "Jane Doe",
+				"email": "jane@doe.com",
+				"date": "2023-02-03 07:30:05 +0000",
+				"message": "My git change.",
+				"paths": [
+					{ "path": "hello.txt", "modified": true, "deleted": false, "added": false }
+				]
+			}
+		]
+	}
+	'''
     
     // Read in the changes via text
     addchangestobuildchangelog changelogText: text
@@ -54,7 +63,7 @@ committer Jane Doe <jane@doe.com> 2023-02-03 07:30:05 +0000
 
 ## Freestyle Builds
 
-> **Warning**
+> **Note**
 > At the moment, you can only specify Git SCM as the default checkout type.  The other SCM types (like SVN, etc) are not support yet.  If you want to use this plugin and do not have a git repository, then specify an empty git repository to get around that restriction.
 
 Screenshot:
@@ -63,13 +72,20 @@ Screenshot:
 
 Example git changelog text:
 ```
-commit 364cd043160d870b655f66c5925b18b9e14961e1
-author Jane Doe <jane@doe.com> 2023-02-03 07:30:05 +0000
-committer Jane Doe <jane@doe.com> 2023-02-03 07:30:05 +0000
-
-    My git change.
-
-:100644 100644 8bdc86e3cf958f80a15e39dae910c28292bf3030 88944b4f9832a5ccd85d48a9ea4b824b0e7233fd M    hello.txt
+{
+	"changes": [
+		{
+			"commit": "364cd043160d870b655f66c5925b18b9e14961e1",
+			"author": "Jane Doe",
+			"email": "jane@doe.com",
+			"date": "2023-02-03 07:30:05 +0000",
+			"message": "My git change.",
+			"paths": [
+				{ "path": "hello.txt", "modified": true, "deleted": false, "added": false }
+			]
+		}
+	]
+}
 ```
 
 ## Contributing

@@ -15,9 +15,11 @@ import org.jvnet.hudson.test.JenkinsRule;
 import org.junit.Assert;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.text.DecimalFormat;
 import java.io.IOException;
 import hudson.plugins.git.GitSCM;
+import com.google.gson.Gson; 
 
 /**
  * Test cases for adding Custom Changes to the Build Changelog via String or File.
@@ -91,51 +93,45 @@ public class AddChangesToBuildChangelogTest {
 	}
 	
 	/**
-	 * Helper class to create paths in a changelog string
-	 */
-	private String getFormattedPaths(String[] paths) {
-		List<String> formattedPaths = new ArrayList<String>();
-		// not really for sure what this corresponds to, but I didn't need it for my purposes
-		// update if you need it
-		int i = 0;
-		DecimalFormat decimalFormat = new DecimalFormat("0000000000000000000000000000000000000000");
-		for(String path : paths) {
-			String uniqueString = decimalFormat.format(i);
-			i++;
-			String prefix = ":000000 000000 " + uniqueString + " " + uniqueString + " ";
-			formattedPaths.add(prefix + path);
-		}
-		
-		return String.join("\n", formattedPaths);
-	}
-	
-	/**
-	 * Helper class to create a commit changelog string
-	 */
-	private String getCommit(String commit, String author, String email, String date, String message, String[] paths) {
-		List<String> lines = new ArrayList<String>();
-		lines.add("commit " + commit);
-		lines.add("author " + author + "<" + email + ">" + date);
-		lines.add("committer " + author + "<" + email + ">" + date);
-		lines.add("");
-		lines.add("	" + message);
-		lines.add("");
-		lines.add("");
-		lines.add(getFormattedPaths(paths));
-		return String.join("\n", lines);
-	}
-	
-	/**
 	 * Helper class to create 3 bogus commits in a changelog string
 	 */
-	private String getChangeLogText() {
-		List<String> commits = new ArrayList<String>();
-		commits.add(getCommit("659d00186d94581c05283afefe885a4ad5a186a8", "Joe Smith", "joe@smith.com", "2023-02-01 13:35:03 +0530", "Hello", 
-			new String[] { "D\t/home/test.jpg", "A\t/var/log.txt", "M\t/user/foo.png" }));
-		commits.add(getCommit("5fa9113196c54518a3f91bbe2bfac46842af9cac", "Jane Doe", "jane@doe.com", "2024-03-02 14:46:14 +0530", "Bonjour", 
-			new String[] { }));
-		commits.add(getCommit("26dede03e5dd169b0ccf5c0e5b9bc4bb9cbafdf2", "Richard Doctor", "richard@doctor.com", "2024-03-02 14:46:14 +0530", "Konnichiwa", 
-			new String[] { "M\t/soul/sister.png", "M\t/holy/cow.png" }));
-		return String.join("\n", commits);
+	private String getChangeLogText() throws Exception {
+		List<CustomChange> commits = new ArrayList<CustomChange>();
+		
+		commits.add(new CustomChange(
+			"659d00186d94581c05283afefe885a4ad5a186a8", 
+			"Joe Smith",
+			"joe@smith.com",
+			"2023-02-01 13:35:03 +0530",
+			"Hello",
+			Arrays.asList(
+				new CustomChangePath("/home/test.jpg", false, false, true),
+				new CustomChangePath("/var/log.txt", false, true, false),
+				new CustomChangePath("/user/foo.png", true, false, false)
+			)
+		));
+		commits.add(new CustomChange(
+			"5fa9113196c54518a3f91bbe2bfac46842af9cac", 
+			"Jane Doe", 
+			"jane@doe.com", 
+			"2024-03-02 14:46:14 +0530", 
+			"Bonjour", 
+			new ArrayList<CustomChangePath>()
+		));
+		commits.add(new CustomChange(
+			"26dede03e5dd169b0ccf5c0e5b9bc4bb9cbafdf2", 
+			"Richard Doctor", 
+			"richard@doctor.com", 
+			"2024-03-02 14:46:14 +0530",
+			"Konnichiwa", 
+			Arrays.asList(
+				new CustomChangePath("/soul/sister.png", true, false, false),
+				new CustomChangePath("/holy/cow.png", true, false, false)
+			)
+		));
+		
+		CustomChangeSet set = new CustomChangeSet(commits);
+		Gson gson = new Gson();
+		return gson.toJson(set);
 	}
 }
