@@ -18,6 +18,11 @@ import java.lang.IllegalArgumentException;
 import org.apache.commons.io.FileUtils;
 import hudson.scm.SCM;
 import com.google.gson.Gson; 
+import java.lang.ref.WeakReference;
+import hudson.model.AbstractBuild;
+import java.lang.reflect.Field;
+import hudson.scm.ChangeLogParser;
+import hudson.scm.ChangeLogSet;
 
 /**
  * Implementation for adding Custom Changes to the Build Changelog via String or File.
@@ -68,7 +73,7 @@ public class AddChangesToBuildChangelog {
 	/**
 	 * Helpwer class to append  the text to the preexisting changelog.xml file.
 	 */
-	private void appendChangeLog(String text, FreeStyleBuild run) throws IOException,  IOException {
+	private File appendChangeLog(String text, FreeStyleBuild run) throws IOException {
 		String buildDir = run.getArtifactsDir().getPath().replace("archive", "");
 		String changelogPath = buildDir + "changelog.xml";
 		// WARNING:  The text you're appending must match what's defined in the configure screen.
@@ -79,6 +84,7 @@ public class AddChangesToBuildChangelog {
 		} 
 		
 		FileUtils.writeStringToFile(f, text);
+		return f;
 	}
 	
 	/**
@@ -102,7 +108,25 @@ public class AddChangesToBuildChangelog {
 		
 		// It seems like just appending or creating a new changelog.xml is all that's needed for FreestyleBuilds.
 		// The configuration must get reloaded after the build step completes or something.
-		appendChangeLog(text, run);
+		File changeLog = appendChangeLog(text, run);
+		
+		// Just updating the changelog.xml didn't work for Linux (however it did work for Windows).
+		// To fix both cases, we need to tell the FreeStyle to reload it's changelog.xml from disk.
+		reloadFreeStyleChangeSet(run, changeLog);
+	}
+	
+	/**
+	 * This will reload the FreeStyle changelog from disk.
+	 */
+	private void reloadFreeStyleChangeSet(FreeStyleBuild run, File changeLog) throws Exception {
+		Field changeSet = AbstractBuild.class.getDeclaredField("changeSet");
+		Field scm = AbstractBuild.class.getDeclaredField("scm");
+
+		changeSet.setAccessible(true);
+		scm.setAccessible(true);
+
+		ChangeLogSet<?> cls = ((ChangeLogParser)scm.get(run)).parse(run, changeLog);
+		changeSet.set(run, new WeakReference<>(cls));
 	}
 	
 	/**
