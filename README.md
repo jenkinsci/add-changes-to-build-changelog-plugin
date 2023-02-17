@@ -1,3 +1,6 @@
+[![Build Status](https://ci.jenkins.io/job/Plugins/job/add-changes-to-build-changelog-plugin/job/main/badge/icon)](https://ci.jenkins.io/job/Plugins/job/add-changes-to-build-changelog-plugin/job/main/)
+[![cd](https://github.com/jenkinsci/add-changes-to-build-changelog-plugin/actions/workflows/cd.yaml/badge.svg)](https://github.com/jenkinsci/add-changes-to-build-changelog-plugin/actions/workflows/cd.yaml)
+
 # Add Changes to Build Changelog Plugin
 
 ## About
