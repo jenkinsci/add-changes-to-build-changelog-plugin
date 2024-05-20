@@ -38,6 +38,8 @@ For example, here are some of those questions:
 Example pipeline script:
 ```
 node {
+    // IMPORTANT: If you want to add new lines to the message part, you will need to tack on a few spaces after each new line.
+    // In my case, it was 4 spaces (e.g. "First Line\n    Second Line\n    Third Line") 
     def text = '''
 	{
 		"changes": [
